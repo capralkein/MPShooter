@@ -38,7 +38,4 @@ private:
 	bool bIsAccelerating;
 
 	FRotator DeltaRotation;
-
-
-	
 };

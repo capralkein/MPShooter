@@ -37,7 +37,16 @@ void UBaseAnimInstance::NativeUpdateAnimation(float DeltaTime)
 	DeltaRotation = FMath::RInterpTo(DeltaRotation, DeltaRot, DeltaTime, 5.f);
 	YawOffset = DeltaRotation.Yaw;
 
-	AO_Pitch = AimRotation.Pitch;
+	if (BaseCharacter->IsLocallyControlled())
+	{
+		AO_Pitch = AimRotation.Pitch;
+	}
+	else
+	{
+		FRotator TargetAimRotation = FMath::RInterpTo(TargetAimRotation, AimRotation, DeltaTime, 3.f);
+		AO_Pitch = TargetAimRotation.Pitch * (-1);
+	}
+
 	if (AO_Pitch > 90.f)
 	{
 		// map pitch from [270, 360) to [-90, 0)

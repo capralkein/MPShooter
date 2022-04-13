@@ -49,13 +49,11 @@ void AWeapon::Fire(const FVector& HitTarget)
 		FHitResult FireHit;
 		WeaponTraceHit(Start, HitTarget, FireHit);
 
-		ABaseCharacter* BaseCharacter = Cast<ABaseCharacter>(FireHit.GetActor());
-		if (BaseCharacter && InstigatorController)
+		auto Character = FireHit.GetActor();
+		if (Character && InstigatorController)
 		{
-			bool bCauseAuthDamage = PlayerCharacter->IsLocallyControlled();
-
 			UGameplayStatics::ApplyDamage(
-				BaseCharacter,
+				Character,
 				5.f,
 				InstigatorController,
 				this,

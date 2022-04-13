@@ -89,6 +89,14 @@ void ABaseCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompo
 	PlayerInputComponent->BindAction("Fire", IE_Released, this, &ABaseCharacter::FireButtonReleased);
 }
 
+void ABaseCharacter::Destroyed()
+{
+	if (Weapon)
+	{
+		Weapon->Destroy();
+	}
+}
+
 void ABaseCharacter::ReceiveDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatorController, AActor* DamageCauser)
 {
 	Health = FMath::Clamp(Health - Damage, 0.f, MaxHealth);
@@ -227,17 +235,6 @@ void ABaseCharacter::OnRep_Weapon()
 		Weapon->SetOwner(this);
 		Weapon->SetPlayerCharacter(this);
 	}
-
-	/*if (Weapon)
-	{
-		const USkeletalMeshSocket* HandSocket = GetMesh()->GetSocketByName(FName("WeaponSocket"));
-		if (HandSocket)
-		{
-			HandSocket->AttachActor(Weapon, GetMesh());
-		}
-		Weapon->SetOwner(this);
-		Weapon->SetPlayerCharacter(this);
-	}*/
 }
 
 void ABaseCharacter::OnRep_Health()
